@@ -9,6 +9,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
+
 @Service
 public class UnsplashService {
 
@@ -38,13 +40,15 @@ public class UnsplashService {
     }
 
     public Mono<UnsplashResponse> searchUnsplash(String searchText, int pageNumber) {
-        return webClient.get()
-                .uri(uri -> uri
-                        .queryParam("page", pageNumber)
-                        .queryParam("query", searchText)
-                        .build())
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(UnsplashResponse.class);
+        return Mono.delay(Duration.ofSeconds(4))
+                .then(webClient.get()
+                        .uri(uri -> uri
+                                .queryParam("page", pageNumber)
+                                .queryParam("query", searchText)
+                                .build())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .retrieve()
+                        .bodyToMono(UnsplashResponse.class));
     }
+
 }
