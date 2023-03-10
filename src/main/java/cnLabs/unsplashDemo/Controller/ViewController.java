@@ -1,5 +1,7 @@
 package cnLabs.unsplashDemo.Controller;
 
+import cnLabs.unsplashDemo.Model.SearchKeyword;
+import cnLabs.unsplashDemo.Service.UnsplashService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
