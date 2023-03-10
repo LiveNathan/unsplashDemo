@@ -25,9 +25,10 @@ public class ViewController {
     @PostMapping("/")
     public String performSearch(@ModelAttribute("searchKeyword") SearchKeyword searchKeyword, Model model) {
         ReactiveDataDriverContextVariable reactiveData =
-                new ReactiveDataDriverContextVariable(unsplashService.getPhotos(searchKeyword.getText()), 1);
+                new ReactiveDataDriverContextVariable(unsplashService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation()), 1);
         model.addAttribute("photos", reactiveData);
         model.addAttribute("searchText", searchKeyword.getText());
+        model.addAttribute("orientation", searchKeyword.getOrientation());
         return "index";
     }
 }

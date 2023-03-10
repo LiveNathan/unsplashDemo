@@ -20,6 +20,13 @@
       <div class="input-group">
         <span class="input-group-text">Keywords:</span>
         <input type="text" class="form-control" th:field="*{text}" th:value="${searchText}">
+
+        <select th:field="*{orientation}">
+          <option th:value="'landscape'" th:text="Landscape">Landscape</option>
+          <option th:value="'portrait'" th:text="Portrait">Portrait</option>
+          <option th:value="'squarish'" th:text="Square">Square</option>
+        </select>
+
         <button class="btn btn-info" type="submit">Search!</button>
       </div>
     </form>
