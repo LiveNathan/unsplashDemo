@@ -36,19 +36,19 @@ public class UnsplashService {
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve().bodyToMono(UnsplashResponse.class)
                 .map(UnsplashResponse::getTotalPages)
-                .map(Integer::valueOf);
+                .map(Integer::valueOf);  // Can be omitted.
     }
 
     public Mono<UnsplashResponse> searchUnsplash(String searchText, int pageNumber) {
-        return Mono.delay(Duration.ofSeconds(4))
-                .then(webClient.get()
-                        .uri(uri -> uri
-                                .queryParam("page", pageNumber)
-                                .queryParam("query", searchText)
-                                .build())
-                        .accept(MediaType.APPLICATION_JSON)
-                        .retrieve()
-                        .bodyToMono(UnsplashResponse.class));
+        return webClient.get()
+                .uri(uri -> uri
+                        .queryParam("page", pageNumber)
+                        .queryParam("query", searchText)
+                        .build())
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(UnsplashResponse.class);
+//                .delayElement(Duration.ofSeconds(1));
     }
 
 }

@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -27,10 +27,12 @@ public class Photo {
      */
 
     private String id;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
     private int width;
     private int height;
-    private String description;
+//    private String description;
     @JsonProperty("alt_description")
-    private String altDescription;
+    private String description;
     private Urls urls;
 }
