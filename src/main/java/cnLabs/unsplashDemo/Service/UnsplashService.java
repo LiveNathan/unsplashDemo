@@ -35,8 +35,7 @@ public class UnsplashService {
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve().bodyToMono(UnsplashResponse.class)
-                .map(UnsplashResponse::getTotalPages)
-                .map(Integer::valueOf);  // Can be omitted.
+                .map(UnsplashResponse::getTotalPages);
     }
 
     public Mono<UnsplashResponse> searchUnsplash(String searchText, int pageNumber, String orientation) {

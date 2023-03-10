@@ -1,5 +1,6 @@
 package cnLabs.unsplashDemo.Controller;
 
+import cnLabs.unsplashDemo.Model.Photo;
 import cnLabs.unsplashDemo.Model.SearchKeyword;
 import cnLabs.unsplashDemo.Service.UnsplashService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.thymeleaf.spring5.context.webflux.ReactiveDataDriverContextVariable;
+import reactor.core.publisher.Flux;
 
 @Controller
 public class ViewController {
@@ -31,4 +33,6 @@ public class ViewController {
         model.addAttribute("orientation", searchKeyword.getOrientation());
         return "index";
     }
+
+
 }
