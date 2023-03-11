@@ -1,5 +1,6 @@
 package cnLabs.unsplashDemo.Config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,6 +33,7 @@ public class ClientConfig {
     }
 
     @Bean
+    @Qualifier("webClientPexels")
     public WebClient webClientPexels() {
         return WebClient.builder()
                 .baseUrl(searchUriPexels.toString())

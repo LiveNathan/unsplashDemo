@@ -1,5 +1,6 @@
 package cnLabs.unsplashDemo.Model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +26,6 @@ public class UrlsPexel {
     private String small;
     private String portrait;
     private String landscape;
-    private String tiny;
+    @JsonProperty("tiny")
+    private String thumb;
 }
