@@ -37,7 +37,7 @@ public class ViewController {
                 reactiveData =
                         new ReactiveDataDriverContextVariable(unsplashService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
                                 .onErrorResume(error -> {
-                                    model.addAttribute("errorMessage", "Test message");
+                                    model.addAttribute("errorMessage", error.getMessage());
                                     return Flux.empty();
                                 }), 1);
                 break;
@@ -45,20 +45,20 @@ public class ViewController {
                 reactiveData =
                         new ReactiveDataDriverContextVariable(pexelService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
                                 .onErrorResume(error -> {
-                                    model.addAttribute("errorMessage", "Test message");
+                                    model.addAttribute("errorMessage", error.getMessage());
                                     return Flux.empty();
                                 }), 1);
                 break;
             case "both":
                 Flux<Photo> unsplashPhotos = unsplashService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
                         .onErrorResume(error -> {
-                            model.addAttribute("errorMessage", "Test message");
+                            model.addAttribute("errorMessage", error.getMessage());
                             return Flux.empty();
                         });
 
                 Flux<PhotoPexel> pexelsPhotos = pexelService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
                         .onErrorResume(error -> {
-                            model.addAttribute("errorMessage", "Test message");
+                            model.addAttribute("errorMessage", error.getMessage());
                             return Flux.empty();
                         });
 
@@ -66,8 +66,8 @@ public class ViewController {
                 break;
         }
         model.addAttribute("photos", reactiveData);
-        model.addAttribute("searchText", searchKeyword.getText());
-        model.addAttribute("orientation", searchKeyword.getOrientation());
+        model.addAttribute("searchText", searchKeyword);
+//        model.addAttribute("orientation", searchKeyword.getOrientation());
         return "index";
     }
 

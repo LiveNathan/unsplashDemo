@@ -17,7 +17,7 @@ public class PexelService {
     @Qualifier("webClientPexels")
     WebClient webClient;
 
-    public Flux<PhotoPexel>  getPhotos(String searchText, String orientation) {
+    public Flux<PhotoPexel> getPhotos(String searchText, String orientation) {
         if (orientation.equals("squarish")) {
             orientation = "square";
         }
@@ -30,7 +30,7 @@ public class PexelService {
                 .flatMap(pageNumber -> searchPexel(searchText, pageNumber, finalOrientation2)
                         // when a response is received, get the results
                         .flatMapIterable(PexelsResponse::getPhotos), 5)
-                .switchIfEmpty(Flux.error(new RuntimeException("No results found")));
+                .switchIfEmpty(Flux.error(new RuntimeException("No results found. Please try a different search.")));
     }
 
     public Mono<Integer> getTotalPages(String searchText, String orientation) {
