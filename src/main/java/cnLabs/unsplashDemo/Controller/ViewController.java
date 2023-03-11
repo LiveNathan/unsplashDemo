@@ -1,6 +1,7 @@
 package cnLabs.unsplashDemo.Controller;
 
 import cnLabs.unsplashDemo.Model.Photo;
+import cnLabs.unsplashDemo.Model.PhotoPexel;
 import cnLabs.unsplashDemo.Model.SearchKeyword;
 import cnLabs.unsplashDemo.Service.PexelService;
 import cnLabs.unsplashDemo.Service.UnsplashService;
@@ -31,20 +32,38 @@ public class ViewController {
     @PostMapping("/")
     public String performSearch(@ModelAttribute("searchKeyword") SearchKeyword searchKeyword, Model model) {
         ReactiveDataDriverContextVariable reactiveData = null;
-        if (searchKeyword.getSource().equals("unsplash")) {
-            reactiveData =
-                    new ReactiveDataDriverContextVariable(unsplashService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
-                            .onErrorResume(error -> {
-                                model.addAttribute("errorMessage", "Test message");
-                                return Flux.empty();
-                            }), 1);
-        } else if (searchKeyword.getSource().equals("pexels")) {
-            reactiveData =
-                    new ReactiveDataDriverContextVariable(pexelService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
-                            .onErrorResume(error -> {
-                                model.addAttribute("errorMessage", "Test message");
-                                return Flux.empty();
-                            }), 1);
+        switch (searchKeyword.getSource()) {
+            case "unsplash":
+                reactiveData =
+                        new ReactiveDataDriverContextVariable(unsplashService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
+                                .onErrorResume(error -> {
+                                    model.addAttribute("errorMessage", "Test message");
+                                    return Flux.empty();
+                                }), 1);
+                break;
+            case "pexels":
+                reactiveData =
+                        new ReactiveDataDriverContextVariable(pexelService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
+                                .onErrorResume(error -> {
+                                    model.addAttribute("errorMessage", "Test message");
+                                    return Flux.empty();
+                                }), 1);
+                break;
+            case "both":
+                Flux<Photo> unsplashPhotos = unsplashService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
+                        .onErrorResume(error -> {
+                            model.addAttribute("errorMessage", "Test message");
+                            return Flux.empty();
+                        });
+
+                Flux<PhotoPexel> pexelsPhotos = pexelService.getPhotos(searchKeyword.getText(), searchKeyword.getOrientation())
+                        .onErrorResume(error -> {
+                            model.addAttribute("errorMessage", "Test message");
+                            return Flux.empty();
+                        });
+
+                reactiveData = new ReactiveDataDriverContextVariable(Flux.concat(unsplashPhotos, pexelsPhotos), 1);
+                break;
         }
         model.addAttribute("photos", reactiveData);
         model.addAttribute("searchText", searchKeyword.getText());

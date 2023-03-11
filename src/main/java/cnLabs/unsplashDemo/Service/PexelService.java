@@ -27,7 +27,7 @@ public class PexelService {
                 // if total pages is greater than 5, set to 5 since Pexel limits requests-per-hour
                 .flatMapMany(totalPages -> Flux.range(1, totalPages > 5 ? 5 : totalPages))
                 // for each page in the range, query the search API
-                .flatMap(f -> searchPexel(searchText, f, finalOrientation2)
+                .flatMap(pageNumber -> searchPexel(searchText, pageNumber, finalOrientation2)
                         // when a response is received, get the results
                         .flatMapIterable(PexelsResponse::getPhotos), 5)
                 .switchIfEmpty(Flux.error(new RuntimeException("No results found")));

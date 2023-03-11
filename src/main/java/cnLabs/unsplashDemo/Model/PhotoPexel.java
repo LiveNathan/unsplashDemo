@@ -2,10 +2,13 @@ package cnLabs.unsplashDemo.Model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter
+@Setter
 @NoArgsConstructor
-@Data
 public class PhotoPexel {
 
     /**
@@ -29,6 +32,9 @@ public class PhotoPexel {
     private String photographerUrl;
     @JsonProperty("photographer_id")
     private int photographerId;
-//    private String avg_color;
+    //    private String avg_color;
+    @JsonProperty("alt")
+    private String description;
+    @JsonProperty("src")
     private UrlsPexel urls;
 }
