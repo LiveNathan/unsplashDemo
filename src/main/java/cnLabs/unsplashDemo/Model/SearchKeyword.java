@@ -9,4 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class SearchKeyword {
     private String text;
+    private String orientation;
+    private String source;
 }
